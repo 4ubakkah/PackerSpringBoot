@@ -3,6 +3,7 @@ package org.mobiquityinc.model;
 
 import java.math.BigDecimal;
 
+
 public class Thing {
 
     private final int index;

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
+/**
+ * Entry point to run the application.
+ */
 @Service
 public class ComandLineRunnerImpl implements CommandLineRunner {
 
