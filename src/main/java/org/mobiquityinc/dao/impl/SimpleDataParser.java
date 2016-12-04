@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class SimpleDataParser implements DataParser {
 
     private static final String METADATA_DELIMITER = ":";
+    private static final String NUMERIC_SYMBOLS_PATTERN = "[^\\d.]";
 
     @Override
     public List<ThingPackage> parseLines(List<String> line) {
@@ -35,14 +36,18 @@ public class SimpleDataParser implements DataParser {
         List<Thing> things = thingMetadata.stream()
                 .map(thingAsString -> {
                     String[] thingDetails = thingAsString.trim().split(",");
-                    int index = Integer.parseInt(thingDetails[0].substring(1));
+                    int index = Integer.parseInt(getNumericSymbolsOnly(thingDetails[0]));
                     BigDecimal weight = BigDecimal.valueOf(Double.parseDouble(thingDetails[1]));
-                    BigDecimal price = BigDecimal.valueOf(Double.parseDouble(thingDetails[2].substring(1, thingDetails[2].length() - 1)));
+                    BigDecimal price = BigDecimal.valueOf(Double.parseDouble(getNumericSymbolsOnly(thingDetails[2])));
                     return new Thing(index, price, weight);
                 })
                 .collect(Collectors.toList());
 
         return new ThingPackage(things, weightLimit);
+    }
+
+    private String getNumericSymbolsOnly(String input) {
+        return input.replaceAll(NUMERIC_SYMBOLS_PATTERN, "");
     }
 
 }
