@@ -30,15 +30,15 @@ public class SimpleDataParser implements DataParser {
 
     private ThingPackage parseLine(String line) {
         String[] metadata = line.split(METADATA_DELIMITER);
-        BigDecimal weightLimit = BigDecimal.valueOf(Double.parseDouble(metadata[0].trim()));
+        BigDecimal weightLimit = new BigDecimal(metadata[0].trim());
 
         List<String> thingMetadata = Arrays.asList(metadata[1].trim().split(" "));
         List<Thing> things = thingMetadata.stream()
                 .map(thingAsString -> {
                     String[] thingDetails = thingAsString.trim().split(",");
                     int index = Integer.parseInt(getNumericSymbolsOnly(thingDetails[0]));
-                    BigDecimal weight = BigDecimal.valueOf(Double.parseDouble(thingDetails[1]));
-                    BigDecimal price = BigDecimal.valueOf(Double.parseDouble(getNumericSymbolsOnly(thingDetails[2])));
+                    BigDecimal weight = new BigDecimal(thingDetails[1]);
+                    BigDecimal price = new BigDecimal(getNumericSymbolsOnly(thingDetails[2]));
                     return new Thing(index, price, weight);
                 })
                 .collect(Collectors.toList());
