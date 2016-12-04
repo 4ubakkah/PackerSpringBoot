@@ -35,6 +35,9 @@ public class SimplePackEngine implements PackEngine {
         return new ThingPackage(validThings, thingPackage.getWeightLimit());
     }
 
+    /**
+     * Filters combinations having total weight of things exceeding maximum allowed weight for package
+     */
     private List<List<Thing>> filterCombinationsWithOverWeight(List<List<Thing>> input, BigDecimal weightLimit) {
         return new LinkedList<>(input.stream().filter(hasOverWeight(weightLimit)).collect(Collectors.toList()));
     }
@@ -43,6 +46,9 @@ public class SimplePackEngine implements PackEngine {
         return things -> computeTotalWeight(things).compareTo(weightLimit) < 0;
     }
 
+    /**
+     * Generates all possible combinations of provided things including non-valid ones.
+     */
     private List<List<Thing>> generateAllPossibleCombinations(List<Thing> things) {
         List<List<Thing>> allPossibleCombinations = new LinkedList<>();
 
@@ -62,6 +68,9 @@ public class SimplePackEngine implements PackEngine {
         return allPossibleCombinations;
     }
 
+    /**
+     * Composes optimal package where total weight is less than or equal to the package limit and the total cost is as large as possible.
+     */
     private ThingPackage getOptimalPackage(List<List<Thing>> combinations, BigDecimal weightLimit) {
         List<Thing> optimalListOfThings = new LinkedList<>();
 
@@ -73,6 +82,10 @@ public class SimplePackEngine implements PackEngine {
             BigDecimal combinationTotalWeight = computeTotalWeight(combination);
             BigDecimal combinationTotalPrice = computeTotalPrice(combination);
 
+            /**
+             * Tests if current combination is better then best solution so far.
+             * If price is equal then combination with less weight is prefered.
+             */
             if (combinationTotalPrice.compareTo(currentBestPrice) == 1
                     || (combinationTotalPrice.compareTo(currentBestPrice) == 0 && combinationTotalWeight.compareTo(currentBestWeight) == -1)) {
                 optimalListOfThings = combination;
