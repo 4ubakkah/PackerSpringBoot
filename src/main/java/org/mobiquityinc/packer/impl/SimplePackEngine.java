@@ -44,13 +44,13 @@ public class SimplePackEngine implements PackEngine {
     }
 
     private List<List<Thing>> generateAllPossibleCombinations(List<Thing> things) {
-        List<List<Thing>> allPossibleCombinations = new ArrayList<>();
+        List<List<Thing>> allPossibleCombinations = new LinkedList<>();
 
         for (Thing thing : things) {
-            List<List<Thing>> newPossibleCombinations = new ArrayList<>();
+            List<List<Thing>> newPossibleCombinations = new LinkedList<>();
 
             for (List<Thing> subset : allPossibleCombinations) {
-                List<Thing> newSubset = new ArrayList<>(subset);
+                List<Thing> newSubset = new LinkedList<>(subset);
                 newSubset.add(thing);
                 newPossibleCombinations.add(newSubset);
             }
